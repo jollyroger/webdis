@@ -1,0 +1,27 @@
+#! /bin/sh
+
+set -e
+
+case "$1" in
+    upgrade|failed-upgrade|abort-install|abort-upgrade|disappear|remove)
+        ;;
+
+    purge)
+        # Since no data is stored in the webdis home directory, the package is
+        # not affected by bug #621833 and thus homedir can be safely removed
+        if [ -x /usr/sbin/deluser ] && getent passwd webdis >/dev/null ; then
+            deluser --quiet --remove-home --system webdis
+        fi
+
+        rm -rf /var/log/webdis
+        ;;
+
+    *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 1
+
+esac
+
+#DEBHELPER#
+
+exit 0

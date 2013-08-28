@@ -1,0 +1,28 @@
+Description: Fixes to default production config. These are needed to make
+service suitable for start as a daemon with start-stop-daemon as well as to
+start on localhost only.
+Author: Andriy Senkovych <jolly_roger@itblog.org.ua>
+Last-Update: 2013-09-01
+--- a/webdis.prod.json
++++ b/webdis.prod.json
+@@ -4,11 +4,11 @@
+ 	"redis_port":	6379,
+ 	"redis_auth":	null,
+ 
+-	"http_host":	"0.0.0.0",
++	"http_host":	"127.0.0.1",
+ 	"http_port":	7379,
+ 	"threads":	4,
+ 
+-	"daemonize":	true,
++	"daemonize":	false,
+ 
+ 	"database":	0,
+ 
+@@ -24,5 +24,5 @@
+ 	],
+ 
+         "verbosity": 3,
+-        "logfile": "/var/log/webdis.log"
++        "logfile": "/var/log/webdis/webdis.log"
+ }

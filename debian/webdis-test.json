@@ -1,0 +1,28 @@
+{
+	"redis_host":	"REDIS_SOCK",
+
+	"http_host":	"127.0.0.1",
+	"http_port":	0,
+
+	"threads":	2,
+	"pool_size": 5,
+
+	"daemonize":	false,
+	"websockets":	false,
+
+	"database":	0,
+
+	"acl": [
+		{
+			"disabled":	["DEBUG"]
+		},
+
+		{
+			"http_basic_auth":	"user:password",
+			"enabled":		["DEBUG"]
+		}
+	],
+
+        "verbosity": 3,
+        "logfile": "/dev/null"
+}

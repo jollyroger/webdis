@@ -1,0 +1,33 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+#export DH_VERBOSE=1
+
+export PREFIX = /usr
+export DESTDIR = $(CURDIR)/debian/tmp
+
+export CFLAGS := $(shell dpkg-buildflags --get CFLAGS)
+export CPPFLAGS := $(shell dpkg-buildflags --get CPPFLAGS)
+export LDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
+
+# Add CPPFLAGS TO CFLAGS since build system does not know about them.
+CFLAGS += $(CPPFLAGS)
+
+build: build-arch
+build-arch: tests/pubsub tests/websocket
+
+tests/% :
+	$(MAKE) -C tests $*
+
+%:
+	dh $@
+
+override_dh_strip:
+	dh_strip --dbg-package=webdis-dbg
+
+override_dh_auto_test:
+ifneq (,$(findstring nocheck, $(DEB_BUILD_OPTIONS)))
+	@echo "Skipping check (disabled in DEB_BUILD_OPTIONS)."
+else
+	$(CURDIR)/debian/test.sh make test
+endif

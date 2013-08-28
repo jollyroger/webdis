@@ -1,0 +1,25 @@
+.TH WEBDIS 1 "August 29, 2013"
+.SH NAME
+webdis \- fast HTTP interface for redis-server(1)
+.SH SYNOPSIS
+.B webdis
+.RI configfile
+.SH DESCRIPTION
+Webdis is a Webdis is a simple HTTP server which forwards commands to Redis and
+sends the reply back using a format of your choice. Accessing
+/COMMAND/arg0/arg1/.../argN[.ext] on Webdis executes the command on Redis and
+returns the response; the reply format can be changed with the optional
+extension (.json, .txt).
+.PP
+.SH OPTIONS
+.IP "configfile"
+Read options from specified configuration file.
+.SH NOTES
+On Debian GNU/Linux systems, \fBwebdis\fP is typically started via the
+\fB/etc/init.d/webdis\fP initscript, not manually. This defaults to using
+\fB/etc/webdis/webdis.json\fP as a configuration file.
+.SH AUTHOR
+\fBwebdis\fP was written by Nicolas Favre-Félix.
+.PP
+This manual page was written by Andriy Senkovych <jolly_roger@itblog.org.ua> for
+the Debian project (but may be used by others).

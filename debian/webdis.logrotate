@@ -1,0 +1,11 @@
+/var/log/webdis/webdis.log {
+    missingok
+    rotate 5
+    weekly
+    size 10M
+    compress
+    notifempty
+    postrotate
+        /usr/bin/killall -HUP webdis
+    endscript
+}
