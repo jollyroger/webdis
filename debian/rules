@@ -25,9 +25,23 @@ tests/% :
 override_dh_strip:
 	dh_strip --dbg-package=webdis-dbg
 
+override_dh_auto_clean:
+	$(MAKE) clean
+	$(MAKE) -C tests clean
+
 override_dh_auto_test:
 ifneq (,$(findstring nocheck, $(DEB_BUILD_OPTIONS)))
 	@echo "Skipping check (disabled in DEB_BUILD_OPTIONS)."
 else
-	$(CURDIR)/debian/test.sh make test
+	$(CURDIR)/debian/test.sh $(MAKE) -f debian/rules webdis_test
 endif
+
+WEBDIS_PORT ?= 7379
+
+webdis_test:
+	python tests/basic.py
+	python tests/limits.py
+	./tests/pubsub -p $(WEBDIS_PORT)
+	# This is a performance test that requires apache2-utils and curl, thus
+	# disabled
+	#./tests/bench.sh

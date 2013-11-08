@@ -15,7 +15,8 @@ REDIS_SOCK=${TMPDIR}/redis.sock
 
 set_up() {
     echo "Generating config files.."
-	sed -e "s|REDIS_SOCK|${REDIS_SOCK}|" debian/webdis-test.json > ${WEBDIS_CONF}
+	sed -e "s|REDIS_SOCK|${REDIS_SOCK}|" -e "s|WEBDIS_PID|${WEBDIS_PID}|" \
+        debian/webdis-test.json > ${WEBDIS_CONF}
 	sed -e "s|REDIS_PID|${REDIS_PID}|" -e "s|REDIS_SOCK|${REDIS_SOCK}|" \
         debian/redis-test.conf > ${REDIS_CONF}
 
@@ -25,14 +26,15 @@ set_up() {
 		--exec `which redis-server` -- ${REDIS_CONF} || return 1
 
     echo "Starting webdis.."
-	/sbin/start-stop-daemon --start --verbose -b \
-		--pidfile ${WEBDIS_PID} --make-pidfile \
+	/sbin/start-stop-daemon --start --verbose \
+		--pidfile ${WEBDIS_PID} \
 		--exec $PWD/webdis -- ${WEBDIS_CONF} || return 2
 
     MATCH_STR="`cat $WEBDIS_PID`\\/webdis"
     export WEBDIS_PORT=`netstat -ntlp 2>/dev/null| \
         awk "/$MATCH_STR/ {print \\$4}"|cut -d: -f2`
-    echo webdis is listening on port $WEBDIS_PORT
+    [ "$WEBDIS_PORT" -gt 0 ] || return 3
+    echo webdis is listening on port "$WEBDIS_PORT"
 }
 
 tear_down() {

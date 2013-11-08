@@ -7,7 +7,8 @@
 	"threads":	2,
 	"pool_size": 5,
 
-	"daemonize":	false,
+	"daemonize":	true,
+    "pidfile":       "WEBDIS_PID",
 	"websockets":	false,
 
 	"database":	0,
