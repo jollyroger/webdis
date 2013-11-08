@@ -18,7 +18,7 @@ Last-Update: 2013-08-28
  
  # check for MessagePack
  MSGPACK_LIB=$(shell ls /usr/lib/libmsgpack.so 2>/dev/null)
-@@ -16,28 +15,28 @@
+@@ -16,8 +15,8 @@
  endif
  
  
@@ -29,41 +29,6 @@ Last-Update: 2013-08-28
  
  
  
- PREFIX ?= /usr/local
--CONFDIR ?= $(DESTDIR)/etc
-+CONFDIR ?= $(DESTDIR)/etc/webdis
- 
- INSTALL_DIRS = $(DESTDIR) \
- 	       $(DESTDIR)/$(PREFIX) \
- 	       $(DESTDIR)/$(PREFIX)/bin \
- 	       $(CONFDIR)
- 
--all: $(OUT) Makefile
-+all: $(OUT)
- 
--$(OUT): $(OBJS) Makefile
-+$(OUT): $(OBJS)
- 	$(CC) -o $(OUT) $(OBJS) $(LDFLAGS)
- 
--%.o: %.c %.h Makefile
-+%.o: %.c %.h
- 	$(CC) -c $(CFLAGS) -o $@ $<
- 
--%.o: %.c Makefile
-+%.o: %.c
- 	$(CC) -c $(CFLAGS) -o $@ $<
- 
- $(INSTALL_DIRS):
-@@ -45,7 +44,8 @@
- 
- clean:
- 	rm -f $(OBJS) $(OUT)
-+	cd tests && $(MAKE) $@
- 
- install: $(OUT) $(INSTALL_DIRS)
- 	cp $(OUT) $(DESTDIR)/$(PREFIX)/bin
--	cp webdis.prod.json $(CONFDIR)
-+	cp webdis.prod.json $(CONFDIR)/webdis.json
 --- a/conf.c
 +++ b/conf.c
 @@ -9,7 +9,7 @@
