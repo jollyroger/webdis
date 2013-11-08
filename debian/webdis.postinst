@@ -1,15 +1,19 @@
 #! /bin/sh
 
 set -e
+WEBDIS_LOG=/var/log/webdis
 
 case "$1" in
     configure)
-	    adduser --system \
+	    adduser --system --group \
             --home /var/lib/webdis \
             --no-create-home \
             --gecos "webdis system user" \
+            --disabled-login \
             --disabled-password webdis
-        chown webdis:adm /var/log/webdis
+        if ! dpkg-statoverride --list $WEBDIS_LOG >/dev/null 2>&1 ; then
+            dpkg-statoverride --update --add webdis webdis 0750 $WEBDIS_LOG
+        fi
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

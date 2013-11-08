@@ -1,6 +1,7 @@
 #! /bin/sh
 
 set -e
+WEBDIS_LOG=/var/log/webdis
 
 case "$1" in
     upgrade|failed-upgrade|abort-install|abort-upgrade|disappear|remove)
@@ -9,8 +10,12 @@ case "$1" in
     purge)
         # Since no data is stored in the webdis home directory, the package is
         # not affected by bug #621833 and thus homedir can be safely removed
+        if dpkg-statoverride --list $WEBDIS_LOG >/dev/null 2>&1 ; then
+            dpkg-statoverride --remove /var/log/webdis
+        fi
+        rm -rf $WEBDIS_LOG
+
         deluser --system webdis
-        rm -rf /var/log/webdis
         ;;
 
     *)
