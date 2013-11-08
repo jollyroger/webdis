@@ -13,8 +13,8 @@ Last-Update: 2013-08-28
 -CFLAGS=-O0 -ggdb -Wall -Wextra -I. -Ijansson/src -Ihttp-parser
 -LDFLAGS=-levent -pthread
 +CFLAGS ?= -O0 -ggdb
-+CFLAGS += -Wall -Wextra -I. -Ihttp-parser
-+LDFLAGS += -levent -pthread -lhiredis -ljansson
++CFLAGS += -Wall -Wextra -I. -Ihttp-parser -Ib64
++LDFLAGS += -levent -pthread -lhiredis -ljansson -lb64
  
  # check for MessagePack
  MSGPACK_LIB=$(shell ls /usr/lib/libmsgpack.so 2>/dev/null)
@@ -23,8 +23,9 @@ Last-Update: 2013-08-28
  
  
 -DEPS=$(FORMAT_OBJS) $(HIREDIS_OBJ) $(JANSSON_OBJ) $(HTTP_PARSER_OBJS)
+-OBJS=webdis.o cmd.o worker.o slog.o server.o libb64/cencode.o acl.o md5/md5.o sha1/sha1.o http.o client.o websocket.o pool.o conf.o $(DEPS)
 +DEPS=$(FORMAT_OBJS) $(HTTP_PARSER_OBJS)
- OBJS=webdis.o cmd.o worker.o slog.o server.o libb64/cencode.o acl.o md5/md5.o sha1/sha1.o http.o client.o websocket.o pool.o conf.o $(DEPS)
++OBJS=webdis.o cmd.o worker.o slog.o server.o acl.o md5/md5.o sha1/sha1.o http.o client.o websocket.o pool.o conf.o $(DEPS)
  
  
  
@@ -63,3 +64,23 @@ Last-Update: 2013-08-28
  	cp $(OUT) $(DESTDIR)/$(PREFIX)/bin
 -	cp webdis.prod.json $(CONFDIR)
 +	cp webdis.prod.json $(CONFDIR)/webdis.json
+--- a/conf.c
++++ b/conf.c
+@@ -9,7 +9,7 @@
+ 
+ #include <jansson.h>
+ #include <evhttp.h>
+-#include <libb64/cencode.h>
++#include <b64/cencode.h>
+ #include "conf.h"
+ #include "acl.h"
+ 
+--- a/websocket.c
++++ b/websocket.c
+@@ -1,5 +1,5 @@
+ #include "sha1/sha1.h"
+-#include "libb64/cencode.h"
++#include <b64/cencode.h>
+ #include "websocket.h"
+ #include "client.h"
+ #include "cmd.h"
