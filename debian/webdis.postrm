@@ -9,10 +9,7 @@ case "$1" in
     purge)
         # Since no data is stored in the webdis home directory, the package is
         # not affected by bug #621833 and thus homedir can be safely removed
-        if [ -x /usr/sbin/deluser ] && getent passwd webdis >/dev/null ; then
-            deluser --quiet --remove-home --system webdis
-        fi
-
+        deluser --system webdis
         rm -rf /var/log/webdis
         ;;
 
