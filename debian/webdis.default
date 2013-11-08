@@ -1,2 +1,5 @@
+# Webdis configuration file used at startup. 
+CONFFILE="/etc/webdis/webdis.json"
+
 # Additional options that are passed to the Daemon.
-DAEMON_OPTS="/etc/webdis/webdis.json"
+DAEMON_OPTS=""

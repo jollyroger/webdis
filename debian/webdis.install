@@ -1,2 +1,2 @@
-/etc/webdis/webdis.json
+debian/webdis.json /etc/webdis/
 /usr/bin/webdis

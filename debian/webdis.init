@@ -23,6 +23,7 @@ PIDDIR=/var/run/$NAME
 PIDFILE=$PIDDIR/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 USER=webdis
+CONFFILE="/etc/webdis/webdis.json"
 
 # Exit if the package is not installed
 [ -x "$DAEMON" ] || exit 0
@@ -56,10 +57,10 @@ do_start()
         --user $USER --chuid $USER \
         --exec $DAEMON > /dev/null \
 		|| return 1
-	/sbin/start-stop-daemon --start --quiet --background \
-		--pidfile $PIDFILE --make-pidfile \
+	/sbin/start-stop-daemon --start --quiet \
+		--pidfile $PIDFILE \
         --user $USER --chuid $USER \
-        --exec $DAEMON -- $DAEMON_OPTS \
+        --exec $DAEMON -- $CONFFILE $DAEMON_OPTS\
 		|| return 2
 	# Add code here, if necessary, that waits for the process to be ready
 	# to handle requests from services started subsequently which depend
