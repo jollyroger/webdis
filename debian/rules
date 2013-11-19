@@ -19,8 +19,8 @@ export HIREDIS_OBJ=
 export JANSSON_OBJ=
 export B64_OBJS=
 
-export CFLAGS += -I. -Ihttp-parser -DMSGPACK=1
-export LDFLAGS += -levent -pthread -lhiredis -ljansson -lb64 -lmsgpack
+export CFLAGS += -I. -Ihttp-parser
+export LDFLAGS += -levent -pthread -lhiredis -ljansson -lb64
 
 build: build-arch
 build-arch: tests/pubsub tests/websocket
