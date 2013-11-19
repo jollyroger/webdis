@@ -5,13 +5,22 @@
 
 export PREFIX = /usr
 export DESTDIR = $(CURDIR)/debian/tmp
+export CONFDIR = $(DESTDIR)/etc/webdis
 
-export CFLAGS := $(shell dpkg-buildflags --get CFLAGS)
-export CPPFLAGS := $(shell dpkg-buildflags --get CPPFLAGS)
-export LDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
+CFLAGS := $(shell dpkg-buildflags --get CFLAGS)
+CPPFLAGS := $(shell dpkg-buildflags --get CPPFLAGS)
+LDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
 
 # Add CPPFLAGS TO CFLAGS since build system does not know about them.
 CFLAGS += $(CPPFLAGS)
+
+# Objects to be removed from build procedure
+export HIREDIS_OBJ=
+export JANSSON_OBJ=
+export B64_OBJS=
+
+export CFLAGS += -I. -Ihttp-parser -DMSGPACK=1
+export LDFLAGS += -levent -pthread -lhiredis -ljansson -lb64 -lmsgpack
 
 build: build-arch
 build-arch: tests/pubsub tests/websocket
@@ -33,15 +42,5 @@ override_dh_auto_test:
 ifneq (,$(findstring nocheck, $(DEB_BUILD_OPTIONS)))
 	@echo "Skipping check (disabled in DEB_BUILD_OPTIONS)."
 else
-	$(CURDIR)/debian/test.sh $(MAKE) -f debian/rules webdis_test
+	$(CURDIR)/debian/test.sh $(MAKE) test
 endif
-
-WEBDIS_PORT ?= 7379
-
-webdis_test:
-	python tests/basic.py
-	python tests/limits.py
-	./tests/pubsub -p $(WEBDIS_PORT)
-	# This is a performance test that requires apache2-utils and curl, thus
-	# disabled
-	#./tests/bench.sh
