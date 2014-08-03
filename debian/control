@@ -1,6 +1,6 @@
 Source: webdis
 Section: web
-Priority: extra
+Priority: optional
 Maintainer: Andriy Senkovych <jolly_roger@itblog.org.ua>
 Build-Depends: debhelper (>= 7.0.50~), 
     libevent-dev (>= 1.4.13), 
@@ -12,7 +12,7 @@ Build-Depends: debhelper (>= 7.0.50~),
     python-unittest2,
     python-msgpack (>= 0.3),
     net-tools
-Standards-Version: 3.9.4
+Standards-Version: 3.9.5.0
 Vcs-Git: git://github.com/jollyroger/webdis.git -b debian
 Vcs-Browser: https://github.com/jollyroger/webdis
 Homepage: http://webd.is
@@ -44,6 +44,7 @@ Description: simple web server providing an HTTP interface to Redis
     into an object.
 
 Package: webdis-dbg
+Priority: extra
 Architecture: any
 Section: debug
 Depends: ${misc:Depends}, webdis (= ${binary:Version})
