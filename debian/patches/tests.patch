@@ -1,0 +1,38 @@
+Description: Pass tests with python-msgpack >= 0.3
+ Current test suite pass with python-msgpack v0.2 but fails with python-msgpack
+ v0.3 and later due to changes in the library. Currently Debian ships v0.3 
+ for jessie and wheezy-backports.
+Author: Andriy Senkovych <jolly_roger@itblog.org.ua>
+Bug: https://github.com/nicolasff/webdis/issues/92
+Last-Update: 2014-08-03
+diff --git a/tests/basic.py b/tests/basic.py
+index 89d664e..c70babe 100755
+--- a/tests/basic.py
++++ b/tests/basic.py
+@@ -154,7 +154,7 @@ class TestMsgPack(TestWebdis):
+ 		f = self.query('SET/hello/world.msg')
+ 		self.assertTrue(f.headers.getheader('Content-Type') == 'application/x-msgpack')
+ 		obj = msgpack.loads(f.read())
+-		self.assertTrue(obj == {'SET': (True, 'OK')})
++		self.assertTrue(obj == {'SET': [True, 'OK']})
+ 
+ 	@need_msgpack
+ 	def test_get(self):
+@@ -180,7 +180,7 @@ class TestMsgPack(TestWebdis):
+ 		self.query('RPUSH/hello/def')
+ 		f = self.query('LRANGE/hello/0/-1.msg')
+ 		obj = msgpack.loads(f.read())
+-		self.assertTrue(obj == {'LRANGE': ('abc', 'def')})
++		self.assertTrue(obj == {'LRANGE': ['abc', 'def']})
+ 
+ 	@need_msgpack
+ 	def test_error(self):
+@@ -189,7 +189,7 @@ class TestMsgPack(TestWebdis):
+ 		obj = msgpack.loads(f.read())
+ 		self.assertTrue('UNKNOWN' in obj)
+ 		self.assertTrue(isinstance(obj, dict))
+-		self.assertTrue(isinstance(obj['UNKNOWN'], tuple))
++		self.assertTrue(isinstance(obj['UNKNOWN'], list))
+ 		self.assertTrue(obj['UNKNOWN'][0] == False)
+ 		self.assertTrue(isinstance(obj['UNKNOWN'][1], str))
+ 

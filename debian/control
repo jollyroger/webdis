@@ -10,7 +10,7 @@ Build-Depends: debhelper (>= 7.0.50~),
     libmsgpack-dev,
     redis-server,
     python-unittest2,
-    msgpack-python,
+    python-msgpack (>= 0.3),
     net-tools
 Standards-Version: 3.9.4
 Vcs-Git: git://github.com/jollyroger/webdis.git -b debian
