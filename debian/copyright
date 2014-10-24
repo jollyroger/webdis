@@ -5,7 +5,7 @@ Source: https://github.com/nicolasff/webdis/blob/master/COPYING
 
 Files: *
 Copyright: 2010-2011, Nicolas Favre-Felix <n.favrefelix@gmail.com>
-License: 2-clause BSD License
+License: bsd-2-clause
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  . 
@@ -48,7 +48,7 @@ License: GPL-2+
 Files: md5/*
 Copyright: 1999, 2000, 2002, Aladdin Enterprises
            1999, 2000, 2002, L. Peter Deutsch <ghost@aladdin.com>
-License: 3-clause BSD License
+License: bsd-3-clause
  This software is provided 'as-is', without any express or implied
  warranty.  In no event will the authors be held liable for any damages
  arising from the use of this software.
