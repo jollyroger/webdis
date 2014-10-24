@@ -13,6 +13,15 @@ REDIS_CONF=${TMPDIR}/redis.conf
 REDIS_PID=${TMPDIR}/redis.pid
 REDIS_SOCK=${TMPDIR}/redis.sock
 
+if [ -n "$WEBDIS_BIN" ] ; then
+    if [ ! -x "$WEBDIS_BIN" ] ; then
+        echo "webdis binary $WEBDIS_BIN is not executable" 
+        exit 1
+    fi
+else
+    WEBDIS_BIN="$PWD/webdis"
+fi
+
 set_up() {
     echo "Generating config files.."
 	sed -e "s|REDIS_SOCK|${REDIS_SOCK}|" -e "s|WEBDIS_PID|${WEBDIS_PID}|" \
@@ -28,7 +37,7 @@ set_up() {
     echo "Starting webdis.."
 	/sbin/start-stop-daemon --start --verbose \
 		--pidfile ${WEBDIS_PID} \
-		--exec $PWD/webdis -- ${WEBDIS_CONF} || return 2
+		--exec $WEBDIS_BIN -- ${WEBDIS_CONF} || return 2
 
     MATCH_STR="`cat $WEBDIS_PID`\\/webdis"
     export WEBDIS_PORT=`netstat -ntlp 2>/dev/null| \

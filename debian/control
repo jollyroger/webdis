@@ -16,6 +16,7 @@ Standards-Version: 3.9.5.0
 Vcs-Git: git://github.com/jollyroger/webdis.git -b debian
 Vcs-Browser: https://github.com/jollyroger/webdis
 Homepage: http://webd.is
+Testsuite: autopkgtest
 
 Package: webdis
 Architecture: any

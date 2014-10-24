@@ -1,0 +1,4 @@
+Tests: webdis
+Depends: @, redis-server, build-essential, libevent-dev,
+ python-unittest2, python-msgpack, net-tools
+Restrictions: isolation-container, allow-stderr
