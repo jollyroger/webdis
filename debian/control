@@ -12,7 +12,7 @@ Build-Depends: debhelper (>= 7.0.50~),
     python-unittest2,
     python-msgpack (>= 0.3),
     net-tools
-Standards-Version: 3.9.5.0
+Standards-Version: 3.9.6
 Vcs-Git: git://github.com/jollyroger/webdis.git -b debian
 Vcs-Browser: https://github.com/jollyroger/webdis
 Homepage: http://webd.is
