@@ -1,3 +1,12 @@
+webdis (0.1.1-2) unstable; urgency=medium
+
+  * Use correct license names in debian/copyright
+  * Document hiredis and jansson libraries
+  * Add autopkgtest support
+  * Update Standards-Version to 3.9.6. No changes required
+
+ -- Andriy Senkovych <jolly_roger@itblog.org.ua>  Fri, 24 Oct 2014 22:48:16 +0300
+
 webdis (0.1.1-1) unstable; urgency=low
 
   * Initial release (Closes: #623528)
